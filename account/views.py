@@ -4,9 +4,6 @@ from django.shortcuts import render
 
 from .forms import LoginForm
 
-
-# Create your views here.
-
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -20,7 +17,10 @@ def user_login(request):
                 else:
                     return HttpResponse("Disabled Account")
             else:
+                # Use a proper error message for security reasons
                 return HttpResponse("Wrong account or password")
-        else:
-            form = LoginForm()
-        return render(request, "login.html",{'form':form})
+    else:
+        form = LoginForm()  # Instantiate the form outside of the 'POST' condition
+
+    # If the form is invalid or it's a GET request, render the form template
+    return render(request, "login.html", {'form': form})
