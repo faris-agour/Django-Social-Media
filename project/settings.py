@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = "django-insecure-yz0j=&=acyv(=ul@-zkw51k3tr_rlcv6@yx2kh_y$^l*vfk#j0
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -72,19 +70,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
- 'default': {
- 'ENGINE': 'django.db.backends.postgresql_psycopg2',
- 'NAME': 'socialmedia',
- 'USER': 'postgres',
- 'PASSWORD': 'FArs2013',
- 'HOST': 'localhost',
- 'PORT': '5432',
- }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'socialmedia',
+        'USER': 'postgres',
+        'PASSWORD': 'FArs2013',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -108,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -120,7 +116,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -128,5 +123,11 @@ STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'faresabouagour@gmail.com'
+EMAIL_HOST_PASSWORD = 'hmai csix ojsh bztw'
+EMAIL_USE_TLS = True
