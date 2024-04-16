@@ -12,10 +12,18 @@
 {% else %}
 <p>
     Please, use the following form to log-in.
-    If you don't have an account <a href="{% url "signup" %}">register here</
-a>.
+    If you don't have an account <a href="{% url "signup" %}">register here</a>.
 </p>
 {% endif %}
+<div class="social" >
+    <ul>
+        <li class="google"style="border-radius: 7px;margin-right: 160px">
+            <a href="{% url "social:begin" "google-oauth2" %}">
+            Sign in with google
+            </a>
+        </li>
+    </ul>
+</div>
 <div class="login-form">
     <form action="{% url 'login' %}" method="post">
         {{ form.as_p }}

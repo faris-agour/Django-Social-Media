@@ -175,11 +175,12 @@ ul.messages li a.close {
 /* social-auth */
 .social {
     float:right;
+
 }
 .social li {
     list-style:none;
     padding:10px 20px;
-    margin:0 0 10px 0;
+    margin:22px 0 10px 220px;
 }
 .social li a {
     width:100%;
