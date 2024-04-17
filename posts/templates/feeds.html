@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+<h1>Feed</h1>
+
+<!-- Display All Posts -->
+<div class="posts">
+    {% for post in posts %}
+        <div class="post-container">
+            <!-- User Information -->
+                <div class="user-info">
+                    <img src="{{ post.user.profile.photo.url }}" alt="{{ post.user.username }}" class="user-image small-user-image">
+                    <p class="username">{{ post.user.username }}</p>
+                </div>
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.body }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+            </div>
+
+            <!-- Post Footer -->
+            <div class="post-footer">
+                <!-- Like Button -->
+                <a href="#" data-id="{{ post.id }}"
+                   data-action="{% if request.user in post.likes.all %}un{% endif %}like"
+                   class="like button">
+                    {% if request.user not in post.likes.all %}
+                    Like
+                    {% else %}
+                    Unlike
+                    {% endif %}
+                </a>
+
+
+                <span class="count">
+                    {{ post.likes.count }} like{{ post.likes.count|pluralize }}
+                </span>
+            </div>
+        </div>
+    {% empty %}
+        <p>No posts available.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

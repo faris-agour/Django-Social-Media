@@ -193,7 +193,7 @@ ul.messages li a.close {
 .social li.google { background:#de1710; }
 
 
-/* images */
+/* posts */
 
 .image-preview, .image-detail {
     max-width:300px;
@@ -275,4 +275,91 @@ img.user-detail {
 .action .date {
     font-style:italic;
     color:#ccc;
+}
+.post-container {
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.post {
+    margin-bottom: 15px;
+}
+
+.post-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.posted-by, .likes {
+    font-size: 14px;
+    color: #555;
+}
+
+.likes {
+    margin-left: 20px;
+}
+.post-container {
+    border: 4px solid #89ec91;
+    margin-bottom: 40px;
+    padding: 25px;
+    border-radius: 9px;
+}
+
+.post {
+    margin-bottom: 15px;
+}
+
+.post-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    max-height: 300px; /* Set maximum height */
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.posted-by, .likes {
+    font-size: 14px;
+    color: #555;
+}
+
+.likes {
+    margin-left: 20px;
+}
+/* styles.css or your custom stylesheet */
+
+.user-info {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Center items vertically */
+}
+
+.user-image.small-user-image {
+    border: 2px solid #de9404;
+    width: 50px; /* Adjust the width as per your requirements */
+    height: auto; /* Maintains the aspect ratio */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image covers the entire container */
+    margin-right: 10px; /* Adds some spacing between the image and username */
+}
+
+.username {
+    margin: 0; /* Removes default margin */
+    font-family: Georgia, serif; ; /* Change the font to Arial */
+    color: chocolate;
+}
+.search-form{
+    margin-right: 400px;
 }

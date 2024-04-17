@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Create a Post{% endblock %}
+{% block content %}
+<h1>Create a Post</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.body.label_tag }}
+        {{ form.body }}
+        {% if form.body.errors %}
+            <span class="text-danger">{{ form.body.errors }}</span>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.image.label_tag }}
+        {{ form.image }}
+        {% if form.image.errors %}
+            <span class="text-danger">{{ form.image.errors }}</span>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.slug.label_tag }}
+        {{ form.slug }}
+        {% if form.slug.errors %}
+            <span class="text-danger">{{ form.slug.errors }}</span>
+        {% endif %}
+    </div>
+    <input type="submit" value="Create Post" class="btn btn-primary">
+</form>
+{% endblock %}

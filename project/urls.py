@@ -22,10 +22,9 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('account/', include('account.urls')),
+    path('posts/', include('posts.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
-    # path('social-auth/',
-    #      include('social_django.urls', namespace='social')),
-    # path('oauth/', include('social_django.urls', namespace='social')),
+
 
 ]
 if settings.DEBUG:
