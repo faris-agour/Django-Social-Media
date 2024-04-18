@@ -28,9 +28,13 @@
                         </div>
                     </div>
                     <div class="friend-actions">
-                        <a href="{% url 'post:add_friend' friend.id %}" class="btn btn-success btn-sm">
-                            Add Friend
-                        </a>
+                        {% if friend in friends_list %}
+                            <span class="text-success">Friend</span>
+                        {% else %}
+                            <a href="{% url 'post:add_friend' friend.id %}" class="btn btn-success btn-sm">
+                                Add Friend
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </li>
@@ -43,5 +47,6 @@
 {% else %}
     <p class="text-center mt-4">No search results.</p>
 {% endif %}
+
 
 {% endblock %}

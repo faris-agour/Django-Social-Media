@@ -28,6 +28,6 @@ class Post(models.Model):
 
 
 class Friendship(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="from_user")
-    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="to_user")
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_friendships")
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_friendships")
     accepted = models.BooleanField(default=False)

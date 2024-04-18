@@ -1,9 +1,10 @@
 # Create your views here.
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 
 from .forms import PostForm
 from .models import Post, Friendship
@@ -11,8 +12,8 @@ from .models import Post, Friendship
 
 @login_required
 def feeds(request):
-    friends_list = Friendship.objects.filter(from_user = request.user, accepted = True).values_list('to_user', flat=True)
-    my_posts = Post.objects.filter(user = request.user)  # Order by creation date (newest first)
+    friends_list = Friendship.objects.filter(from_user=request.user, accepted=True).values_list('to_user', flat=True)
+    my_posts = Post.objects.filter(user=request.user)  # Order by creation date (newest first)
     friends_posts = Post.objects.filter(user__in=friends_list)  # Order by creation date (newest first)
     posts = my_posts | friends_posts
     posts = posts.order_by("-created")
@@ -48,10 +49,6 @@ def add_friend(request, id):
         return messages.info(request, "friend request was already sent!")
 
 
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
 
 
 @login_required
@@ -74,40 +71,49 @@ def add_friend(request, to_user_id):
 
 @login_required
 def accept_friend(request, friendship_id):
+    # Get the friendship request
     friend_request = get_object_or_404(Friendship, id=friendship_id, to_user=request.user)
 
     # Update friendship to accepted
     friend_request.accepted = True
     friend_request.save()
 
+    # Create a reverse friendship (from the sender to the receiver)
+    Friendship.objects.get_or_create(from_user=friend_request.to_user, to_user=request.user, accepted=True)
+
     messages.success(request, "Friend request accepted")
     return redirect('post:friends')
-
 
 @login_required
 def friends(request):
     # Get all accepted friendships where the logged-in user is the 'from_user'
-    all_friends = Friendship.objects.filter(from_user=request.user, accepted=True)
-
+    sent_friendships = request.user.sent_friendships.filter(accepted=True)
     # Extract the 'to_user' from these friendships to get the list of friends
-    friends_list = [friendship.to_user for friendship in all_friends]
+    friends_list = [friendship.to_user for friendship in sent_friendships]
+
+    # Get all accepted friendships where the logged-in user is the 'to_user'
+    received_friendships = request.user.received_friendships.filter(accepted=True)
+    # Extract the 'from_user' from these friendships to get the list of friends
+    friends_list += [friendship.from_user for friendship in received_friendships]
+
+    # Remove duplicates and the logged-in user from the friends list
+    friends_list = list(set(friends_list))
+    friends_list = [friend for friend in friends_list if friend != request.user]
 
     # Get all pending friend requests where the logged-in user is the 'to_user'
     friend_requests = Friendship.objects.filter(to_user=request.user, accepted=False)
 
     return render(request, 'friends.html', {'friends_list': friends_list, 'friend_requests': friend_requests})
 
-
-
 @login_required
 def search_for_friends(reqest):
     q = reqest.GET.get('query')
     if q:
         friends_list = User.objects.filter(
-            Q(username__icontains=q)|
-            Q(first_name__icontains=q)|
+            Q(username__icontains=q) |
+            Q(first_name__icontains=q) |
             Q(last_name__icontains=q)
-        ).exclude(id = reqest.user.id)
+        ).exclude(id=reqest.user.id)
     else:
         friends_list = []
-    return render(reqest,"search_for_friends.html",{"friends_list":friends_list})
+    return render(reqest, "search_for_friends.html", {"friends_list": friends_list})

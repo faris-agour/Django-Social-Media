@@ -1,6 +1,61 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
- <h1>Dashboard</h1>
- <p>Welcome to your dashboard.</p>
+        <div class="container mt-5" ">
+            <div class="row">
+                <!-- User Profile Section -->
+                <div class="card" style="margin-bottom:22px;padding: 20px">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            {% if request.user.profile.photo %}
+                                <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.username }}" class="rounded-circle" width="50" height="50">
+                            {% endif %}
+                            <h5 class="card-title ml-3" style="margin-left: 9px">{{ request.user.username }}</h5>
+                        </div>
+                        <div class="d-flex">
+                            <a href="{% url 'edit' %}" class="btn btn-primary mr-2" style="margin-right: 5px">Edit Profile</a>
+                            <a href="{% url 'post:create' %}" class="btn btn-success">Add Post</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+        <!-- Posts Section -->
+        <div class="col-md-9">
+            <h1 style="padding-top: 20px;padding-bottom: 30px">My Posts</h1>
+
+            <!-- Post Creation Form -->
+            <!-- User Posts -->
+            {% for post in my_posts %}
+                <small class="text-muted">Posted on {{ post.created }}</small>
+                        <div class="post-container">
+                            <h2>{{ post.title }}</h2>
+                            <p>{{ post.body }}</p>
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                            {% endif %}
+                            <a href="#" data-id="{{ post.id }}"
+                               data-action="{% if request.user in post.likes.all %}un{% endif %}like"
+                               class="like button">
+                                {% if request.user not in post.likes.all %}
+                                Like
+                                {% else %}
+                                Unlike
+                                {% endif %}
+                            </a>
+
+
+                            <span class="count">
+                                {{ post.likes.count }} like{{ post.likes.count|pluralize }}
+                            </span>
+                        </div>
+
+            {% empty %}
+                <p>No posts available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

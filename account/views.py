@@ -10,7 +10,8 @@ from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import ProfileEditForm, UserEditForm  # Adjust the import based on your actual forms
-
+from django.contrib.auth.decorators import login_required
+from posts.models import Post  # Absolute import for Post model from the 'posts' app
 
 
 def custom_logout_view(request):
@@ -20,13 +21,11 @@ def custom_logout_view(request):
     return render(request, 'registration/logout.html')
 
 
+
 @login_required
 def dashboard(request):
-    return render(request,
-                  'account/dashboard.html',
-                  {'section': 'dashboard'})
-
-
+    my_posts = Post.objects.filter(user=request.user)
+    return render(request, 'account/dashboard.html', {'my_posts': my_posts})
 
 
 def signup(request):
