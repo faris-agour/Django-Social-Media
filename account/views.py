@@ -40,7 +40,7 @@ def signup(request):
             if user is not None:
                 login(request, user)
                 Profile.objects.create(user=user)
-                return redirect("../profile/")
+                return redirect("../")
     else:
         form = SignUpForm()
 

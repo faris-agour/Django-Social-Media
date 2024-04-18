@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Search Friends{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Search Friends</h1>
+
+<div class="search-container text-center mb-4">
+    <form method="GET" action="{% url 'post:search_for_friends' %}">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="Search by username or full name"style="height: 70px">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if friends_list %}
+    <ul class="list-group">
+        {% for friend in friends_list %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="friend-info">
+                        {% if friend.profile.photo %}
+                            <img src="{{ friend.profile.photo.url }}" alt="{{ friend.username }}" class="rounded-circle" width="50" height="50">
+                        {% endif %}
+                        <div class="ml-3">
+                            <h5 class="friend-name mb-0">{{ friend.username }}</h5>
+                            <small class="friend-fullname">{{ friend.get_full_name }}</small>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <a href="{% url 'post:add_friend' friend.id %}" class="btn btn-success btn-sm">
+                            Add Friend
+                        </a>
+                    </div>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">
+                <p class="text-center">No friends found.</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-center mt-4">No search results.</p>
+{% endif %}
+
+{% endblock %}

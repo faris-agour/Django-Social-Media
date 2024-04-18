@@ -41,7 +41,7 @@
             </div>
         </div>
     {% empty %}
-        <p>No posts available.</p>
+        <p>No posts available. <a href="{% url 'post:search_for_friends' %}" >Add more friends</a></p>
     {% endfor %}
 </div>
 

@@ -363,3 +363,41 @@ img.user-detail {
 .search-form{
     margin-right: 400px;
 }
+.friends-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.friends-list, .friend-requests {
+    flex: 1;
+}
+
+.friend-requests {
+    margin-left: 20px; /* Add some space between the two sections */
+    border-left: 1px solid #ccc; /* Add a border to separate the sections */
+    padding-left: 20px; /* Add some padding inside the div */
+}
+#floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.btn-floating {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24px;
+    line-height: 56px;
+    color: #fff;
+    background-color: #007bff;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.btn-floating:hover {
+    background-color: #0056b3;
+}
+

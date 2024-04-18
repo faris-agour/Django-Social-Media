@@ -12,10 +12,8 @@ def user_directory_path(instance, filename):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    follows = models.ManyToManyField("self",
-                                     related_name="followed_by",
-                                     symmetrical=False,
-                                     blank=True)
+
+    friends = models.ManyToManyField(User, blank=True,related_name="friends")
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to=user_directory_path, blank=True)
 
