@@ -36,19 +36,17 @@
                             {% if post.image %}
                                 <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
                             {% endif %}
-                            <a href="#" data-id="{{ post.id }}"
-                               data-action="{% if request.user in post.likes.all %}un{% endif %}like"
-                               class="like button">
+                            <a href="{% url 'post:post_like_dash' post.id %}"
+                              class="like button" style="border-radius: 5px; color: {% if request.user in post.likes.all %}cyan{% else %}green{% endif %}">
                                 {% if request.user not in post.likes.all %}
-                                Like
+                                    <i class="fas fa-thumbs-up"></i> Like
                                 {% else %}
-                                Unlike
+                                    <i class="fas fa-thumbs-up"></i> Liked
                                 {% endif %}
                             </a>
 
-
                             <span class="count">
-                                {{ post.likes.count }} like{{ post.likes.count|pluralize }}
+                                {{ post.number_of_likes }} likes
                             </span>
                         </div>
 

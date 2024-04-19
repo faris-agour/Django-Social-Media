@@ -16,6 +16,9 @@ class Post(models.Model):
     image = models.ImageField(upload_to=user_directory_path, blank=True)
     likes = models.ManyToManyField(User, related_name="liked_posts", blank=True)
 
+    def number_of_likes(self):
+        return self.likes.count()
+
     def __str__(self):
         return self.body
 

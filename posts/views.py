@@ -1,13 +1,13 @@
 # Create your views here.
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 
 from .forms import PostForm
-from .models import Post, Friendship
+from .models import Friendship, Post
 
 
 @login_required
@@ -49,8 +49,6 @@ def add_friend(request, id):
         return messages.info(request, "friend request was already sent!")
 
 
-
-
 @login_required
 def add_friend(request, to_user_id):
     from_user = request.user
@@ -84,6 +82,7 @@ def accept_friend(request, friendship_id):
     messages.success(request, "Friend request accepted")
     return redirect('post:friends')
 
+
 @login_required
 def friends(request):
     # Get all accepted friendships where the logged-in user is the 'from_user'
@@ -105,6 +104,7 @@ def friends(request):
 
     return render(request, 'friends.html', {'friends_list': friends_list, 'friend_requests': friend_requests})
 
+
 @login_required
 def search_for_friends(reqest):
     q = reqest.GET.get('query')
@@ -117,3 +117,26 @@ def search_for_friends(reqest):
     else:
         friends_list = []
     return render(reqest, "search_for_friends.html", {"friends_list": friends_list})
+
+@login_required
+def post_like(request, pk):
+    like = get_object_or_404(Post, id=pk)  # get something from db quickly easily
+    if like.likes.filter(id=request.user.id):
+        like.likes.remove(request.user)
+        messages.info(request, "Liked removed")
+    else:
+        like.likes.add(request.user)
+        messages.success(request,"Liked sent")
+
+    return redirect("../")
+@login_required
+def post_like_dash(request, pk):
+    like = get_object_or_404(Post, id=pk)  # get something from db quickly easily
+    if like.likes.filter(id=request.user.id):
+        like.likes.remove(request.user)
+        messages.info(request, "Liked removed")
+    else:
+        like.likes.add(request.user)
+        messages.success(request,"Liked sent")
+
+    return redirect("../../account/")
