@@ -16,10 +16,19 @@ class SignUpForm(UserCreationForm):
         fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
 
         # prevent existing email
+
     def clean_email(self):
         data = self.cleaned_data["email"]
-        if User.objects.filter(email=data).exists():
+
+        # Check if the user being edited is available
+        if hasattr(self, 'instance') and self.instance.id:
+            users = User.objects.filter(email=data).exclude(id=self.instance.id)
+        else:
+            users = User.objects.filter(email=data)
+
+        if users.exists():
             raise forms.ValidationError("This email address is already used")
+
         return data
 
 
@@ -27,10 +36,19 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+
     def clean_email(self):
         data = self.cleaned_data["email"]
-        if User.objects.filter(email=data).exists():
+
+        # Check if the user being edited is available
+        if hasattr(self, 'instance') and self.instance.id:
+            users = User.objects.filter(email=data).exclude(id=self.instance.id)
+        else:
+            users = User.objects.filter(email=data)
+
+        if users.exists():
             raise forms.ValidationError("This email address is already used")
+
         return data
 
 

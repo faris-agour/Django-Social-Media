@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignUpForm  # Adjust this import based on your actual form location
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -23,9 +24,21 @@ def custom_logout_view(request):
 
 
 @login_required
-def dashboard(request):
-    my_posts = Post.objects.filter(user=request.user)
-    return render(request, 'account/dashboard.html', {'my_posts': my_posts})
+def dashboard(request, user_id=None):
+    if user_id is None:
+        user_id = request.user.id
+
+    user = get_object_or_404(User, id=user_id)
+    my_posts = Post.objects.filter(user=user)
+    received_friendships = user.received_friendships.filter(from_user=request.user, accepted=True)
+
+    context = {
+        'my_posts': my_posts,
+        'user': user,
+        'received_friendships': received_friendships,
+    }
+
+    return render(request, 'account/dashboard.html', context)
 
 
 def signup(request):
@@ -63,6 +76,7 @@ def edit(request):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Profile updated ' 'successfully')
+            return redirect("../")
         else:
             messages.error(request, 'Error updating your profile')
             # Redirect to a success page or another view
@@ -75,3 +89,4 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+

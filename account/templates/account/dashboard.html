@@ -1,57 +1,76 @@
 {% extends "base.html" %}
+{%load static%}
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-        <div class="container mt-5" ">
-            <div class="row">
-                <!-- User Profile Section -->
-                <div class="card" style="margin-bottom:22px;padding: 20px">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            {% if request.user.profile.photo %}
-                                <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.username }}" class="rounded-circle" width="50" height="50">
-                            {% endif %}
-                            <h5 class="card-title ml-3" style="margin-left: 9px">{{ request.user.username }}</h5>
-                        </div>
-                        <div class="d-flex">
-                            <a href="{% url 'edit' %}" class="btn btn-primary mr-2" style="margin-right: 5px">Edit Profile</a>
-                            <a href="{% url 'post:create' %}" class="btn btn-success">Add Post</a>
-                        </div>
-                    </div>
+<div class="container mt-5">
+    <div class="row">
+        <!-- User Profile Section -->
+        <div class="card" style="margin-bottom:22px;padding: 20px">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    {% if user.profile.photo %}
+                    <img src="{{ user.profile.photo.url }}" alt="{{ user.username }}" class="rounded-circle" width="50"
+                         height="50">
+                    {% else %}
+                    <img src="{% static 'pics/default/OIP.jpg' %}" alt="{{ friend.username }}"
+                         class="rounded-circle" width="50" height="50">
+                    {% endif %}
+                    <h5 class="card-title ml-3" style="margin-left: 9px">{{ user.username }}</h5>
+                </div>
+                {% if request.user == user %}
+                <div class="d-flex">
+                    <a href="{% url 'edit' %}" class="btn btn-primary mr-2" style="margin-right: 5px">Edit Profile</a>
+                    <a href="{% url 'post:create' %}" class="btn btn-success">Add Post</a>
+                </div>
+                {% else %}
+
+                <div class="d-flex">
+                    {% if received_friendships.exists %}
+                        <a href="#" class="btn btn-info">Friends</a>
+                    {% else %}
+                        <a href="{% url 'post:add_friend' user.id %}" class="btn btn-primary">Add Friend</a>
+                    {% endif %}
+
+
                 </div>
 
+                {% endif %}
+            </div>
+        </div>
 
 
         <!-- Posts Section -->
         <div class="col-md-9">
-            <h1 style="padding-top: 20px;padding-bottom: 30px">My Posts</h1>
+            <h1 style="padding-top: 20px;padding-bottom: 30px">Posts</h1>
 
             <!-- Post Creation Form -->
             <!-- User Posts -->
             {% for post in my_posts %}
-                <small class="text-muted">Posted on {{ post.created }}</small>
-                        <div class="post-container">
-                            <h2>{{ post.title }}</h2>
-                            <p>{{ post.body }}</p>
-                            {% if post.image %}
-                                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
-                            {% endif %}
-                            <a href="{% url 'post:post_like_dash' post.id %}"
-                              class="like button" style="border-radius: 5px; color: {% if request.user in post.likes.all %}cyan{% else %}green{% endif %}">
-                                {% if request.user not in post.likes.all %}
-                                    <i class="fas fa-thumbs-up"></i> Like
-                                {% else %}
-                                    <i class="fas fa-thumbs-up"></i> Liked
-                                {% endif %}
-                            </a>
+            <small class="text-muted">Posted on {{ post.created }}</small>
+            <div class="post-container" style="margin-top: 4px;">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.body }}</p>
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+                <a href="{% url 'post:post_like_dash' post.id %}"
+                   class="like button"
+                   style="border-radius: 5px; color: {% if request.user in post.likes.all %}cyan{% else %}green{% endif %}">
+                    {% if request.user not in post.likes.all %}
+                    <i class="fas fa-thumbs-up"></i> Like
+                    {% else %}
+                    <i class="fas fa-thumbs-up"></i> Liked
+                    {% endif %}
+                </a>
 
-                            <span class="count">
+                <span class="count">
                                 {{ post.number_of_likes }} likes
                             </span>
-                        </div>
+            </div>
 
             {% empty %}
-                <p>No posts available.</p>
+            <p>No posts available.</p>
             {% endfor %}
         </div>
     </div>

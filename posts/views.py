@@ -106,17 +106,26 @@ def friends(request):
 
 
 @login_required
-def search_for_friends(reqest):
-    q = reqest.GET.get('query')
+def search_for_friends(request):
+    q = request.GET.get('query')
     if q:
         friends_list = User.objects.filter(
             Q(username__icontains=q) |
             Q(first_name__icontains=q) |
             Q(last_name__icontains=q)
-        ).exclude(id=reqest.user.id)
+        ).exclude(id=request.user.id)
+
+        # Retrieve the list of friends for the current user
+        current_user_friends = request.user.profile.friends.all()
     else:
         friends_list = []
-    return render(reqest, "search_for_friends.html", {"friends_list": friends_list})
+        current_user_friends = []
+
+    return render(request, "search_for_friends.html", {
+        "friends_list": friends_list,
+        "current_user_friends": current_user_friends
+    })
+
 
 @login_required
 def post_like(request, pk):

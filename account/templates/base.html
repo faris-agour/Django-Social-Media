@@ -32,7 +32,7 @@
     {% if request.user.is_authenticated %}
     <ul class="menu"style="margin-left: 134px" >
         <li {% if section == "dashboard" %}class="selected"{% endif %}style="padding-top: 10px">
-            <a href="{% url 'dashboard' %}">My dashboard</a>
+            <a href="{% url 'dashboard' user.id %}">My dashboard</a>
         </li>
         <li {% if section == "people" %}class="selected"{% endif %}style="padding-top: 10px">
             <a href="{% url 'post:friends' %}">Friends</a>

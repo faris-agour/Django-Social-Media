@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Friends{% endblock %}
 
 {% block content %}
@@ -7,44 +8,56 @@
 <div class="friends-container">
     <div class="friends-list">
         <h2>Your Friends</h2>
-{% if friends_list %}
-    <div class="card">
-        <div class="card-header">
-            <h5 class="mb-0">Your Friends</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            {% for friend in friends_list %}
+        {% if friends_list %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Your Friends</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for friend in friends_list %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
                         {% if friend.profile.photo %}
-                            <img src="{{ friend.profile.photo.url }}" alt="{{ friend.username }}" class="rounded-circle" width="50" height="50">
+                        <a href="{% url 'dashboard' friend.id %}">
+                            <img src="{{ friend.profile.photo.url }}" alt="{{ friend.username }}" class="rounded-circle"
+                                 width="50" height="50">
+                        </a>
+                        {% else %}
+                        <a href="{% url 'dashboard' friend.id %}">
+                            <img src="{% static 'pics/default/OIP.jpg' %}" alt="{{ friend.username }}"
+                                 class="rounded-circle" width="50" height="50">
+                        </a>
                         {% endif %}
-                        <span class="ml-3">{{ friend.username }}</span>
+                        <span class="ml-3">
+                            <a href="{% url 'dashboard' friend.id %}">{{ friend.username }}</a>
+                        </span>
                     </div>
+
                 </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% else %}
-    <div class="alert alert-info" role="alert">
-        <strong>No Friends Yet!</strong> You don't have any friends yet.
-    </div>
-{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            <strong>No Friends Yet!</strong> You don't have any friends yet.
+        </div>
+        {% endif %}
 
     </div>
 
     <div class="friend-requests">
         <h2>Pending Friend Requests</h2>
-{% if friend_requests %}
-    <div class="card">
-        <div class="card-header">
-            <h5 class="mb-0">Pending Friend Requests</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            {% for request in friend_requests %}
+        {% if friend_requests %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Pending Friend Requests</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for request in friend_requests %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>{% if friend.profile.photo %}
-                            <img src="{{ friend.profile.photo.url }}" alt="{{ friend.username }}" class="rounded-circle" width="50" height="50">
+                        <img src="{{ friend.profile.photo.url }}" alt="{{ friend.username }}" class="rounded-circle"
+                             width="50" height="50">
                         {% endif %}
                         <span class="ml-3">{{ request.from_user.username }}</span>
                     </div>
@@ -52,14 +65,14 @@
                         <a href="{% url 'post:accept_friend' request.id %}" class="btn btn-success btn-sm">Accept</a>
                     </div>
                 </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% else %}
-    <div class="alert alert-info" role="alert">
-        <strong>No Pending Requests!</strong> You don't have any pending friend requests.
-    </div>
-{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            <strong>No Pending Requests!</strong> You don't have any pending friend requests.
+        </div>
+        {% endif %}
 
     </div>
 </div>
