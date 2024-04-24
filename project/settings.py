@@ -57,13 +57,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_filters',
     'debug_toolbar',
-    "account",
-    "posts",
-    "django.contrib.admin",
     "rest_framework",
     'django_extensions',
+    "account",
+    "posts",
+    "api",
+    "django.contrib.admin",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ],
+}
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
