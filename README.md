@@ -21,6 +21,23 @@ Well-defined RESTful APIs for seamless integration with frontend applications or
 ## Database
 PostgreSQL Configuration: Utilizes PostgreSQL for efficient and reliable data storage.
 
+## Run the application
+- mkdir sagepock
+- cd sagepock
+- git clone https://github.com/fares-agour/Django-Social-Media.git
+- python -m venv venv
+- Activate Virtual Environment:
+  #### On Windows:
+      .\venv\Scripts\activate
+  #### On macOS and Linux:
+      source venv/bin/activate
+- cd Django-Social-Media
+- pip install -r requirements.txt
+- python manage.py migrate
+- python manage.py createsuperuser
+- python manage.py runserver_plus --cert-file cert.crt
+- Enjoy
+
 ## Screenshots
 
 #### Dashboard displaying user activity and posts.
