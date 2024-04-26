@@ -33,6 +33,7 @@ PostgreSQL Configuration: Utilizes PostgreSQL for efficient and reliable data st
       source venv/bin/activate
 - cd Django-Social-Media
 - pip install -r requirements.txt
+- echo .env and fullfit all variables with yours.
 - python manage.py migrate
 - python manage.py createsuperuser
 - to open site in domain sagepock instead of local host
