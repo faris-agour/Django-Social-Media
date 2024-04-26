@@ -35,6 +35,17 @@ PostgreSQL Configuration: Utilizes PostgreSQL for efficient and reliable data st
 - pip install -r requirements.txt
 - python manage.py migrate
 - python manage.py createsuperuser
+- to open site in domain sagepock instead of local host
+ ### On windows
+        C:\Windows\System32\drivers\etc\hosts
+        You'll need to open this file with administrative like VSCODE
+        Add this line:
+        127.0.0.1       sagepock
+ ### On macOS and Linux
+      /etc/hosts
+      sudo nano /etc/hosts
+      127.0.0.1       sagepock 
+
 - python manage.py runserver_plus --cert-file cert.crt
 - Enjoy
 
