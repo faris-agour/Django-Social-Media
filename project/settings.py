@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     "rest_framework",
     'django_extensions',
+    'corsheaders',
     "account",
     "posts",
     "api",
@@ -91,7 +92,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True # FOR COOKIES
+
+
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0

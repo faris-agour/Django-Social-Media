@@ -1,14 +1,9 @@
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignUpForm  # Adjust this import based on your actual form location
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import SignUpForm, ProfileEditForm, UserEditForm
 from .models import Profile
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import ProfileEditForm, UserEditForm  # Adjust the import based on your actual forms
 from django.contrib.auth.decorators import login_required
